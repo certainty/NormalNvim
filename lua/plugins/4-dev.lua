@@ -148,11 +148,11 @@ return {
   {
     "NeogitOrg/neogit",
     dependencies = {
-    "nvim-lua/plenary.nvim",         -- required
-    "sindrets/diffview.nvim",        -- optional - Diff integration
-    "nvim-telescope/telescope.nvim", -- optional
+      "nvim-lua/plenary.nvim",         -- required
+      "sindrets/diffview.nvim",        -- optional - Diff integration
+      "nvim-telescope/telescope.nvim", -- optional
     },
-     config = true
+    config = true,
   },
 
   --  ANALYZER ----------------------------------------------------------------
@@ -351,21 +351,27 @@ return {
   {
     "zbirenbaum/copilot-cmp",
     event = "InsertEnter",
-    config = function ()
+    config = function()
       require("copilot_cmp").setup()
 
       local cmp = require("cmp")
       local cfg = require("cmp").get_config()
 
       local has_words_before = function()
-        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+          return false
+        end
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+        return col ~= 0
+            and vim.api
+            .nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]
+            :match("^%s*$")
+            == nil
       end
 
       cmp.mapping["<TAB>"] = vim.schedule_wrap(function(fallback)
         if cmp.visible() and has_words_before() then
-         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
         else
           fallback()
         end
@@ -384,7 +390,6 @@ return {
       end,
     },
   },
-
 
   -- [guess-indent]
   -- https://github.com/NMAC427/guess-indent.nvim
@@ -823,7 +828,7 @@ return {
       "nvim-neotest/neotest-python",
       "rouge8/neotest-rust",
       "stevanmilic/neotest-scala",
-      "olimorris/neotest-rspec"
+      "olimorris/neotest-rspec",
     },
     opts = function()
       return {
@@ -928,51 +933,74 @@ return {
     ft = { "scala", "sbt", "java" },
 
     opts = function()
-        local metals_config = require("metals").bare_config()
-        metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
-        metals_config.on_attach = function(client, bufnr)
-          local utils = require("base.utils.lsp")
-          utils.apply_user_lsp_mappings(client, bufnr)
-          require("metals").setup_dap()
-        end
-        metals_config.settings = {
-          superMethodLensesEnabled = true,
-          showImplicitArguments = true,
-          showInferredType = true,
-          showImplicitConversionsAndClasses = true,
-          excludedPackages = {},
-       }
+      local metals_config = require("metals").bare_config()
+      metals_config.capabilities =
+          require("cmp_nvim_lsp").default_capabilities()
+      metals_config.on_attach = function(client, bufnr)
+        local utils = require("base.utils.lsp")
+        utils.apply_user_lsp_mappings(client, bufnr)
+        -- TODO: also bind additional keybindings to manage multiroot workspaces
+        require("metals").setup_dap()
+      end
+      metals_config.settings = {
+        superMethodLensesEnabled = true,
+        showImplicitArguments = true,
+        showInferredType = true,
+        showImplicitConversionsAndClasses = true,
+        excludedPackages = {},
+      }
 
-       metals_config.init_options.statusBarProvider = false
-       local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+      metals_config.init_options.statusBarProvider = false
+      local nvim_metals_group =
+          vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 
-        vim.api.nvim_create_autocmd("FileType", {
-         pattern = { "scala", "sbt", "java" },
-         callback = function()
-           require("metals").initialize_or_attach(metals_config)
-         end,
-         group = nvim_metals_group,
-        })
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "scala", "sbt", "java" },
+        callback = function()
+          require("metals").initialize_or_attach(metals_config)
+        end,
+        group = nvim_metals_group,
+      })
 
       local dap = require("nvim-dap")
       dap.configurations.scala = {
-      {
-        type = "scala",
-        request = "launch",
-        name = "Run or Test Target",
-        metals = {
-          runType = "runOrTestFile",
+        {
+          type = "scala",
+          request = "launch",
+          name = "Run or Test Target",
+          metals = {
+            runType = "runOrTestFile",
+          },
         },
-      },
-      {
-        type = "scala",
-        request = "launch",
-        name = "Test Target",
-        metals = {
-          runType = "testTarget",
+        {
+          type = "scala",
+          request = "launch",
+          name = "Test Target",
+          metals = {
+            runType = "testTarget",
+          },
         },
-      },
-    }
+      }
     end,
+  },
+
+  {
+    "julienvincent/nvim-paredit",
+    config = function() require("nvim-paredit").setup() end,
+  },
+
+  {
+    "monkoose/nvlime",
+    ft = { "lisp" },
+    config = function()
+      require("nvlime").setup()
+      vim.g.nvlime_config = {
+        leader = "<LocalLeader>",
+      }
+    end,
+    dependencies = {
+      "julienvincent/nvim-paredit",
+      "monkoose/parsley"
+    },
   },
 } -- end of return
