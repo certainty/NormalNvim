@@ -622,6 +622,10 @@ if is_available "gitsigns.nvim" then
     function() require("gitsigns").diffthis() end,
     desc = "View Git diff",
   }
+  maps.n["<leader>g."] = {
+    function() require("neogit").open { kind = "split" } end,
+    desc = "Neogit status",
+  }
 end
 -- git fugitive
 if is_available "vim-fugitive" then
