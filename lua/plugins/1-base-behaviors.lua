@@ -76,7 +76,8 @@ return {
         "Makefile",
         "package.json",
         ".solution",
-        ".solution.toml"
+        ".solution.toml",
+        ".project" -- custom project marker
       },
       -- Don't list the next projects
       exclude_dirs = {

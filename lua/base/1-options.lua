@@ -7,7 +7,8 @@
 _G.base = {}
 
 -- Theme
-base.default_colorscheme = "tokyonight-night"
+base.default_colorscheme = "catppuccin-mocha"
+-- base.default_colorscheme = "modus_vivendi"
 
 -- Options --------------------------------------------------------------------
 vim.opt.breakindent = true -- Wrap indent to match  line start.
@@ -52,7 +53,7 @@ vim.opt.shada = "!,'1000,<50,s10,h" -- Remember the last 1000 opened files
 vim.opt.history = 1000 -- Number of commands to remember in a history table (per buffer).
 vim.opt.swapfile = false -- Ask what state to recover when opening a file that was not saved.
 vim.opt.wrap = true -- Disable wrapping of lines longer than the width of window.
-vim.opt.colorcolumn = "80" -- PEP8 like character limit vertical bar.
+vim.opt.colorcolumn = "150" -- PEP8 like character limit vertical bar.
 vim.opt.mousescroll = "ver:1,hor:0" -- Disables hozirontal scroll in neovim.
 vim.opt.guicursor = "n:blinkon200,i-ci-ve:ver25" -- Enable cursor blink.
 vim.opt.autochdir = true -- Use current file dir as working dir (See project.nvim).
@@ -84,7 +85,7 @@ vim.g.icons_enabled = true -- Enable icons in the UI (disable if no nerd font is
 vim.g.inlay_hints_enabled = false -- Enable always show function parameter names.
 vim.g.lsp_round_borders_enabled = true -- Enable round borders for lsp hover and signatureHelp.
 vim.g.lsp_signature_enabled = true -- Enable automatically showing lsp help as you write function parameters.
-vim.g.notifications_enabled = true -- Enable notifications.
+vim.g.notifications_enabled = false -- Enable notifications.
 vim.g.semantic_tokens_enabled = true -- Enable lsp semantic tokens at start.
 vim.g.url_effect_enabled = true -- Highlight URLs with an underline effect.
 
