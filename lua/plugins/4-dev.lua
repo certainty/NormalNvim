@@ -349,16 +349,21 @@ return {
   --  As alternative to chatgpt, you can use copilot uncommenting this.
   --  Then you must run :Copilot setup
   {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.vim",
     event = "User BaseFile",
+    -- opts = {
+    --   suggesion = { enabled = false },
+    --   panel = { enabled = false }
+    -- }
   },
   -- copilot-cmp
   -- https://github.com/zbirenbaum/copilot-cmp
   {
     "zbirenbaum/copilot-cmp",
-    opts = { suggesion = { enabled = false }, panel = { enabled = false } },
+    event = "User BaseFile",
     config = function(_, opts) require("copilot_cmp").setup(opts) end,
   },
+
 
   -- [guess-indent]
   -- https://github.com/NMAC427/guess-indent.nvim
@@ -904,15 +909,25 @@ return {
     ft = { "scala", "sbt", "java" },
     opts = function()
       local metals_config = require("metals").bare_config()
+
+      metals_config.settings = {
+        showImplicitArguments = true,
+        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+      }
+      metals_config.init_options.statusBarProvider = "on"
+      metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+
       metals_config.on_attach = function(client, bufnr)
-        -- your on_attach function
+        require("metals").setup_dap()
+
+        local utils = require("base.utils.lsp")
+        utils.apply_user_lsp_mappings(client, bufnr)
       end
 
       return metals_config
     end,
     config = function(self, metals_config)
-      local nvim_metals_group =
-          vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+      local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
       vim.api.nvim_create_autocmd("FileType", {
         pattern = self.ft,
         callback = function()
