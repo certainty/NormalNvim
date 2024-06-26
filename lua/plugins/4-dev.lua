@@ -349,19 +349,40 @@ return {
   --  As alternative to chatgpt, you can use copilot uncommenting this.
   --  Then you must run :Copilot setup
   {
-    "zbirenbaum/copilot.vim",
-    event = "User BaseFile",
-    -- opts = {
-    --   suggesion = { enabled = false },
-    --   panel = { enabled = false }
-    -- }
-  },
-  -- copilot-cmp
-  -- https://github.com/zbirenbaum/copilot-cmp
-  {
     "zbirenbaum/copilot-cmp",
-    event = "User BaseFile",
-    config = function(_, opts) require("copilot_cmp").setup(opts) end,
+    event = "InsertEnter",
+    config = function ()
+      require("copilot_cmp").setup()
+
+      local cmp = require("cmp")
+      local cfg = require("cmp").get_config()
+
+      local has_words_before = function()
+        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+      end
+
+      cmp.mapping["<TAB>"] = vim.schedule_wrap(function(fallback)
+        if cmp.visible() and has_words_before() then
+         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+        else
+          fallback()
+        end
+      end)
+      cmp.setup(cfg)
+    end,
+
+    dependencies = {
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      config = function()
+        require("copilot").setup({
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+        })
+      end,
+    },
   },
 
 
@@ -794,8 +815,6 @@ return {
     "nvim-neotest/neotest",
     cmd = { "Neotest" },
     dependencies = {
-      "sidlatau/neotest-dart",
-      "Issafalcon/neotest-dotnet",
       "jfpedroza/neotest-elixir",
       "nvim-neotest/neotest-go",
       "rcasia/neotest-java",
@@ -803,14 +822,13 @@ return {
       "olimorris/neotest-phpunit",
       "nvim-neotest/neotest-python",
       "rouge8/neotest-rust",
-      "lawrence-laz/neotest-zig",
+      "stevanmilic/neotest-scala",
+      "olimorris/neotest-rspec"
     },
     opts = function()
       return {
         -- your neotest config here
         adapters = {
-          require("neotest-dart"),
-          require("neotest-dotnet"),
           require("neotest-elixir"),
           require("neotest-go"),
           require("neotest-java"),
@@ -818,7 +836,8 @@ return {
           require("neotest-phpunit"),
           require("neotest-python"),
           require("neotest-rust"),
-          require("neotest-zig"),
+          require("neotest-scala"),
+          require("neotest-rspec"),
         },
       }
     end,
@@ -907,34 +926,53 @@ return {
       "nvim-lua/plenary.nvim",
     },
     ft = { "scala", "sbt", "java" },
+
     opts = function()
-      local metals_config = require("metals").bare_config()
+        local metals_config = require("metals").bare_config()
+        metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+        metals_config.on_attach = function(client, bufnr)
+          local utils = require("base.utils.lsp")
+          utils.apply_user_lsp_mappings(client, bufnr)
+          require("metals").setup_dap()
+        end
+        metals_config.settings = {
+          superMethodLensesEnabled = true,
+          showImplicitArguments = true,
+          showInferredType = true,
+          showImplicitConversionsAndClasses = true,
+          excludedPackages = {},
+       }
 
-      metals_config.settings = {
-        showImplicitArguments = true,
-        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
-      }
-      metals_config.init_options.statusBarProvider = "on"
-      metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+       metals_config.init_options.statusBarProvider = false
+       local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 
-      metals_config.on_attach = function(client, bufnr)
-        require("metals").setup_dap()
+        vim.api.nvim_create_autocmd("FileType", {
+         pattern = { "scala", "sbt", "java" },
+         callback = function()
+           require("metals").initialize_or_attach(metals_config)
+         end,
+         group = nvim_metals_group,
+        })
 
-        local utils = require("base.utils.lsp")
-        utils.apply_user_lsp_mappings(client, bufnr)
-      end
-
-      return metals_config
-    end,
-    config = function(self, metals_config)
-      local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = self.ft,
-        callback = function()
-          require("metals").initialize_or_attach(metals_config)
-        end,
-        group = nvim_metals_group,
-      })
+      local dap = require("nvim-dap")
+      dap.configurations.scala = {
+      {
+        type = "scala",
+        request = "launch",
+        name = "Run or Test Target",
+        metals = {
+          runType = "runOrTestFile",
+        },
+      },
+      {
+        type = "scala",
+        request = "launch",
+        name = "Test Target",
+        metals = {
+          runType = "testTarget",
+        },
+      },
+    }
     end,
   },
 } -- end of return

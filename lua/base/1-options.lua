@@ -89,6 +89,3 @@ vim.g.notifications_enabled = false -- Enable notifications.
 vim.g.semantic_tokens_enabled = true -- Enable lsp semantic tokens at start.
 vim.g.url_effect_enabled = true -- Highlight URLs with an underline effect.
 
-
-
-

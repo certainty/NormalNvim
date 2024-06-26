@@ -467,7 +467,7 @@ return {
           end,
         },
         window = {
-          width = 30,
+          width = 80,
           mappings = {
             ["<space>"] = false, -- disable space until we figure out which-key disabling
             ["<S-CR>"] = "system_open",

@@ -403,6 +403,17 @@ maps.n["<leader>b|"] = {
   desc = "Vertical split buffer from tabline",
 }
 
+maps.n["<leader>bv"] = {
+  function ()
+    vim.cmd.vsplit()
+  end
+}
+
+maps.n["<leader>bh"] = {
+  function ()
+    vim.cmd.split()
+  end
+}
 -- quick movement aliases
 maps.n["<C-k>"] = {
   function()
