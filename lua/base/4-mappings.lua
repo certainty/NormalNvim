@@ -634,37 +634,6 @@ if is_available "vim-fugitive" then
     desc = "Open in github ",
   }
 end
--- git client
-if vim.fn.executable "lazygit" == 1 then -- if lazygit exists, show it
-  maps.n["<leader>gg"] = {
-    function()
-      local git_dir = vim.fn.finddir(".git", vim.fn.getcwd() .. ";")
-      if git_dir ~= "" then
-        vim.cmd "TermExec cmd='lazygit && exit'"
-      else
-        utils.notify("Not a git repository", vim.log.levels.WARN)
-      end
-    end,
-    desc = "ToggleTerm lazygit",
-  }
-end
-if vim.fn.executable "gitui" == 1 then -- if gitui exists, show it
-  maps.n["<leader>gg"] = {
-    function()
-      local git_dir = vim.fn.finddir(".git", vim.fn.getcwd() .. ";")
-      if git_dir ~= "" then
-        if vim.fn.executable "keychain" == 1 then
-          vim.cmd 'TermExec cmd="eval `keychain --eval ~/.ssh/github.key` && gitui && exit"'
-        else
-          vim.cmd "TermExec cmd='gitui && exit'"
-        end
-      else
-        utils.notify("Not a git repository", vim.log.levels.WARN)
-      end
-    end,
-    desc = "ToggleTerm gitui",
-  }
-end
 
 -- file browsers ------------------------------------
 -- ranger
@@ -868,16 +837,16 @@ if is_available "telescope.nvim" then
     desc = "Find commands",
   }
   -- Let's disable this. It is way too imprecise. Use rnvimr instead.
-  -- maps.n["<leader>ff"] = {
-  --   function()
-  --     require("telescope.builtin").find_files { hidden = true, no_ignore = true }
-  --   end,
-  --   desc = "Find all files",
-  -- }
-  -- maps.n["<leader>fF"] = {
-  --   function() require("telescope.builtin").find_files() end,
-  --   desc = "Find files (no hidden)",
-  -- }
+  maps.n["<leader>fF"] = {
+    function()
+      require("telescope.builtin").find_files { hidden = true, no_ignore = true }
+    end,
+    desc = "Find all files",
+  }
+  maps.n["<leader>ff"] = {
+    function() require("telescope.builtin").find_files() end,
+    desc = "Find files (no hidden)",
+  }
   maps.n["<leader>fh"] = {
     function() require("telescope.builtin").help_tags() end,
     desc = "Find help",
@@ -917,7 +886,7 @@ if is_available "telescope.nvim" then
     end,
     desc = "Find themes",
   }
-  maps.n["<leader>ff"] = {
+  maps.n["<leader>fg"] = {
     function()
       require("telescope.builtin").live_grep {
         additional_args = function(args)
@@ -927,7 +896,7 @@ if is_available "telescope.nvim" then
     end,
     desc = "Find words in project",
   }
-  maps.n["<leader>fF"] = {
+  maps.n["<leader>fG"] = {
     function() require("telescope.builtin").live_grep() end,
     desc = "Find words in project (no hidden)",
   }

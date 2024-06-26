@@ -16,7 +16,6 @@ local updater = {
   channel = "stable",               -- 'nightly', or 'stable'
   snapshot_module = "lazy_snapshot" -- snapshot file name without extension.
 }
-
 -- lazyload extra behavior
 --  * If plugins need to be installed         → auto launch lazy at startup.
 --  * When lazy finishes installing plugins   → check for mason updates too.
