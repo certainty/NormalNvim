@@ -8,7 +8,6 @@ _G.base = {}
 
 -- Theme
 base.default_colorscheme = "catppuccin-mocha"
--- base.default_colorscheme = "modus_vivendi"
 
 -- Options --------------------------------------------------------------------
 vim.opt.breakindent = true -- Wrap indent to match  line start.
@@ -76,13 +75,13 @@ vim.g.big_file = { size = 1024 * 100, lines = 10000 } -- For files bigger than t
 
 -- The next globals are toggleable with <space + l + u>
 vim.g.autoformat_enabled = false -- Enable auto formatting at start.
-vim.g.autopairs_enabled = false -- Enable autopairs at start.
+vim.g.autopairs_enabled = true -- Enable autopairs at start.
 vim.g.cmp_enabled = true -- Enable completion at start.
 vim.g.codeactions_enabled = true -- Enable displaying 💡 where code actions can be used.
 vim.g.codelens_enabled = true -- Enable automatic codelens refreshing for lsp that support it.
 vim.g.diagnostics_mode = 3 -- Set code linting (0=off, 1=only show in status line, 2=virtual text off, 3=all on).
 vim.g.icons_enabled = true -- Enable icons in the UI (disable if no nerd font is available).
-vim.g.inlay_hints_enabled = false -- Enable always show function parameter names.
+vim.g.inlay_hints_enabled = true -- Enable always show function parameter names.
 vim.g.lsp_round_borders_enabled = true -- Enable round borders for lsp hover and signatureHelp.
 vim.g.lsp_signature_enabled = true -- Enable automatically showing lsp help as you write function parameters.
 vim.g.notifications_enabled = false -- Enable notifications.

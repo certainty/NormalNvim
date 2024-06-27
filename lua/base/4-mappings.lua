@@ -403,17 +403,6 @@ maps.n["<leader>b|"] = {
   desc = "Vertical split buffer from tabline",
 }
 
-maps.n["<leader>bv"] = {
-  function ()
-    vim.cmd.vsplit()
-  end
-}
-
-maps.n["<leader>bh"] = {
-  function ()
-    vim.cmd.split()
-  end
-}
 -- quick movement aliases
 maps.n["<C-k>"] = {
   function()
@@ -918,7 +907,7 @@ if is_available "telescope.nvim" then
 
   -- Some lsp keymappings are here because they depend on telescope
   maps.n["<leader>l"] = icons.l
-  maps.n["<leader>ls"] = {
+  maps.n["<leader>ls,"] = {
     function()
       local aerial_avail, _ = pcall(require, "aerial")
       if aerial_avail then
@@ -1205,14 +1194,17 @@ if is_available "nvim-coverage" then
 end
 
 -- Extra - nodejs testing commands
-maps.n["<leader>Ta"] = {
-  function() vim.cmd "TestNodejs" end,
-  desc = "All",
-}
-maps.n["<leader>Te"] = {
-  function() vim.cmd "TestNodejsE2e" end,
-  desc = "E2e",
-}
+--
+-- TODO: make these buffer local for nodejs projects
+--
+-- maps.n["<leader>Ta"] = {
+--   function() vim.cmd "TestNodejs" end,
+--   desc = "All",
+-- }
+-- maps.n["<leader>Te"] = {
+--   function() vim.cmd "TestNodejsE2e" end,
+--   desc = "E2e",
+-- }
 
 -- nvim-ufo [code folding] --------------------------------------------------
 if is_available "nvim-ufo" then
@@ -1389,14 +1381,14 @@ function M.lsp_mappings(client, bufnr)
 
   -- Formatting
   local formatting = require("base.utils.lsp").formatting
-  lsp_mappings.n["<leader>lf"] = {
+  lsp_mappings.n["<leader>lF"] = {
     function()
       vim.lsp.buf.format(M.format_opts)
       vim.cmd('checktime') -- update buffer to reflect changes.
     end,
     desc = "Format buffer",
   }
-  lsp_mappings.v["<leader>lf"] = lsp_mappings.n["<leader>lf"]
+  lsp_mappings.v["<leader>lF"] = lsp_mappings.n["<leader>lF"]
 
   vim.api.nvim_buf_create_user_command(
     bufnr,
@@ -1547,7 +1539,7 @@ function M.lsp_mappings(client, bufnr)
   end
 
   -- LSP based search
-  lsp_mappings.n["<leader>lS"] = { function() vim.lsp.buf.workspace_symbol() end, desc = "Search symbol in workspace" }
+  lsp_mappings.n["<leader>ls."] = { function() vim.lsp.buf.workspace_symbol() end, desc = "Search symbol in workspace" }
   lsp_mappings.n["gS"] = { function() vim.lsp.buf.workspace_symbol() end, desc = "Search symbol in workspace" }
 
   -- LSP telescope
@@ -1560,11 +1552,21 @@ function M.lsp_mappings(client, bufnr)
     if lsp_mappings.n["<leader>lR"] then
       lsp_mappings.n["<leader>lR"][1] = function() require("telescope.builtin").lsp_references() end
     end
+
+    lsp_mappings.n["<leader>ls"] = { desc = "Search" }
+    lsp_mappings.n["<leader>ls>"] = { function() require("telescope.builtin").lsp_incoming_calls() end, desc = "incoming calls" }
+    lsp_mappings.n["<leader>ls<"] = { function() require("telescope.builtin").lsp_outgoing_calls() end, desc = "outgoing calls" }
+    lsp_mappings.n["<leader>lsr"] = { function() require("telescope.builtin").lsp_references() end, desc = "references" }
+    lsp_mappings.n["<leader>lst"] = { function() require("telescope.builtin").lsp_type_definitions() end, desc = "type definitions" }
+    lsp_mappings.n["<leader>lsS"] = { function() require("telescope.builtin").lsp_document_symbols() end, desc = "document symbols" }
+    lsp_mappings.n["<leader>lss"] = { function() require("telescope.builtin").lsp_workspace_symbols() end, desc = "workspace symbols" }
+    maps.n["<leader>;"] = { function() require("telescope.builtin").lsp_workspace_symbols() end, desc = "workspace symbols" }
+
     if lsp_mappings.n.gy then
       lsp_mappings.n.gy[1] = function() require("telescope.builtin").lsp_type_definitions() end
     end
-    if lsp_mappings.n["<leader>lS"] then
-      lsp_mappings.n["<leader>lS"][1] = function()
+    if lsp_mappings.n["<leader>ls."] then
+      lsp_mappings.n["<leader>ls."][1] = function()
         vim.ui.input({ prompt = "Symbol Query: (leave empty for word under cursor)" }, function(query)
           if query then
             -- word under cursor if given query is empty
