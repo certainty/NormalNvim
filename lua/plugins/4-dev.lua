@@ -69,14 +69,7 @@ return {
       require("luasnip").filetype_extend("typescript", { "tsdoc" })
       require("luasnip").filetype_extend("javascript", { "jsdoc" })
       require("luasnip").filetype_extend("lua", { "luadoc" })
-      require("luasnip").filetype_extend("python", { "pydoc" })
       require("luasnip").filetype_extend("rust", { "rustdoc" })
-      require("luasnip").filetype_extend("cs", { "csharpdoc" })
-      require("luasnip").filetype_extend("java", { "javadoc" })
-      require("luasnip").filetype_extend("c", { "cdoc" })
-      require("luasnip").filetype_extend("cpp", { "cppdoc" })
-      require("luasnip").filetype_extend("php", { "phpdoc" })
-      require("luasnip").filetype_extend("kotlin", { "kdoc" })
       require("luasnip").filetype_extend("ruby", { "rdoc" })
       require("luasnip").filetype_extend("sh", { "shelldoc" })
     end,
@@ -822,10 +815,7 @@ return {
     dependencies = {
       "jfpedroza/neotest-elixir",
       "nvim-neotest/neotest-go",
-      "rcasia/neotest-java",
       "nvim-neotest/neotest-jest",
-      "olimorris/neotest-phpunit",
-      "nvim-neotest/neotest-python",
       "rouge8/neotest-rust",
       "stevanmilic/neotest-scala",
       "olimorris/neotest-rspec",
@@ -836,10 +826,7 @@ return {
         adapters = {
           require("neotest-elixir"),
           require("neotest-go"),
-          require("neotest-java"),
           require("neotest-jest"),
-          require("neotest-phpunit"),
-          require("neotest-python"),
           require("neotest-rust"),
           require("neotest-scala"),
           require("neotest-rspec"),
@@ -896,33 +883,6 @@ return {
     config = function(_, opts) require("coverage").setup(opts) end,
   },
 
-  -- LANGUAGE IMPROVEMENTS ----------------------------------------------------
-  -- guttentags_plus [auto generate C/C++ tags]
-  -- https://github.com/skywind3000/gutentags_plus
-  -- This plugin is necessary for using <C-]> (go to ctag).
-  {
-    "skywind3000/gutentags_plus",
-    ft = { "c", "cpp" },
-    dependencies = { "ludovicchabant/vim-gutentags" },
-    config = function()
-      -- NOTE: On vimplugins we use config instead of opts.
-      vim.g.gutentags_plus_nomap = 1
-      vim.g.gutentags_resolve_symlinks = 1
-      vim.g.gutentags_cache_dir = vim.fn.stdpath("cache") .. "/tags"
-      vim.api.nvim_create_autocmd("FileType", {
-        desc = "Auto generate C/C++ tags",
-        callback = function()
-          local is_c = vim.bo.filetype == "c" or vim.bo.filetype == "cpp"
-          if is_c then
-            vim.g.gutentags_enabled = 1
-          else
-            vim.g.gutentags_enabled = 0
-          end
-        end,
-      })
-    end,
-  },
-
   -- Specific language support
   -- https://github.com/scalameta/nvim-metals
   {
@@ -930,7 +890,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    ft = { "scala", "sbt", "java" },
+    ft = { "scala", "sbt" },
 
     opts = function()
       local metals_config = require("metals").bare_config()
@@ -939,7 +899,6 @@ return {
       metals_config.on_attach = function(client, bufnr)
         local utils = require("base.utils.lsp")
         utils.apply_user_lsp_mappings(client, bufnr)
-        -- TODO: also bind additional keybindings to manage multiroot workspaces
         require("metals").setup_dap()
       end
       metals_config.settings = {
@@ -955,7 +914,7 @@ return {
           vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "scala", "sbt", "java" },
+        pattern = { "scala", "sbt" },
         callback = function()
           require("metals").initialize_or_attach(metals_config)
         end,
@@ -986,6 +945,7 @@ return {
 
   {
     "julienvincent/nvim-paredit",
+    ft = { "clojure", "scheme", "racket", "fennel", "lisp" },
     config = function() require("nvim-paredit").setup() end,
   },
 

@@ -1542,6 +1542,17 @@ function M.lsp_mappings(client, bufnr)
   lsp_mappings.n["<leader>ls."] = { function() vim.lsp.buf.workspace_symbol() end, desc = "Search symbol in workspace" }
   lsp_mappings.n["gS"] = { function() vim.lsp.buf.workspace_symbol() end, desc = "Search symbol in workspace" }
 
+  -- Multiroot workspaces
+  lsp_mappings.n["<leader>lw"] = {
+    function() vim.lsp.buf.list_workspace_folders() end,
+    desc = "List workspace folders",
+  }
+
+  lsp_mappings.n["<leader>lW"] = {
+    function() vim.lsp.buf.add_workspace_folder() end,
+    desc = "Add workspace folder",
+  }
+
   -- LSP telescope
   if is_available "telescope.nvim" then -- setup telescope mappings if available
     if lsp_mappings.n.gd then lsp_mappings.n.gd[1] = function() require("telescope.builtin").lsp_definitions() end end

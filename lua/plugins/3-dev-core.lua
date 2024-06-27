@@ -216,7 +216,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = "User BaseFile",
-    dependencies = "nvim-java/nvim-java",
   },
 
   -- mason-lspconfig [auto start lsp]
