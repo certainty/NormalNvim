@@ -8,6 +8,7 @@ _G.base = {}
 
 -- Theme
 base.default_colorscheme = "catppuccin-mocha"
+-- base.default_colorscheme = "tokyonight"
 
 -- Options --------------------------------------------------------------------
 vim.opt.breakindent = true -- Wrap indent to match  line start.
@@ -81,7 +82,7 @@ vim.g.codeactions_enabled = true -- Enable displaying 💡 where code actions ca
 vim.g.codelens_enabled = true -- Enable automatic codelens refreshing for lsp that support it.
 vim.g.diagnostics_mode = 3 -- Set code linting (0=off, 1=only show in status line, 2=virtual text off, 3=all on).
 vim.g.icons_enabled = true -- Enable icons in the UI (disable if no nerd font is available).
-vim.g.inlay_hints_enabled = true -- Enable always show function parameter names.
+vim.g.inlay_hints_enabled = false -- Enable always show function parameter names.
 vim.g.lsp_round_borders_enabled = true -- Enable round borders for lsp hover and signatureHelp.
 vim.g.lsp_signature_enabled = true -- Enable automatically showing lsp help as you write function parameters.
 vim.g.notifications_enabled = true -- Enable notifications.

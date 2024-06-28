@@ -2,7 +2,6 @@
 -- Things that add new behaviors.
 
 --    Sections:
---       -> ranger file browser    [ranger]
 --       -> project.nvim           [project search + auto cd]
 --       -> trim.nvim              [auto trim spaces]
 --       -> stickybuf.nvim         [lock special buffers]
@@ -24,41 +23,7 @@
 --       -> nvim-lightbulb         [lightbulb for code actions]
 --       -> distroupdate.nvim      [distro update]
 
-local is_windows = vim.fn.has('win32') == 1         -- true if on windows
-local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
-
 return {
-  -- [ranger] file browser
-  -- https://github.com/kevinhwang91/rnvimr
-  -- This is NormalNvim file browser, which is only for Linux.
-  --
-  -- If you are on Windows, you have 3 options:
-  -- * Use neotree instead (<space>+e).
-  -- * Delete rnvimr and install some other file browser you like.
-  -- * Or enable WLS on Windows and launch neovim from there.
-  --   This way you can install and use 'ranger' and its dependency 'pynvim'.
-  {
-    "kevinhwang91/rnvimr",
-    event = "User BaseDefered",
-    cmd = { "RnvimrToggle" },
-    enabled = not is_windows,
-    config = function()
-      -- vim.g.rnvimr_vanilla = 1            -- Often solves issues in your ranger config.
-      vim.g.rnvimr_enable_picker = 1         -- Close rnvimr after choosing a file.
-      vim.g.rnvimr_ranger_cmd = { "ranger" } -- By passing a script like TERM=foot ranger "$@" you can open terminals inside ranger.
-      if is_android then                     -- Open on full screenn
-        vim.g.rnvimr_layout = {
-          relative = "editor",
-          width = 200,
-          height = 100,
-          col = 0,
-          row = 0,
-          style = "minimal",
-        }
-      end
-    end,
-  },
-
   -- project.nvim [project search + auto cd]
   -- https://github.com/ahmedkhalf/project.nvim
   {

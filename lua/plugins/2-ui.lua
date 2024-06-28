@@ -58,19 +58,6 @@ return {
     priority = 1000,
   },
 
-  {
-    "catppuccin/nvim",
-    event = "User LoadColorSchemes",
-    name = "catppuccin",
-    priority = 1000,
-    opts = {
-      color_overrides = {
-        mocha = {
-          base = "#000000",
-        },
-      },
-    },
-  },
   --  alpha-nvim [greeter]
   --  https://github.com/goolord/alpha-nvim
   {
@@ -169,11 +156,6 @@ return {
       dashboard.section.header.opts.hl = "DashboardHeader"
       vim.cmd("highlight DashboardHeader guifg=#F7778F")
 
-      -- If on windows, don't show the 'ranger' button
-      local ranger_button =
-          dashboard.button("r", "🐍 Ranger  ", "<cmd>RnvimrToggle<CR>")
-      if is_windows then ranger_button = nil end
-
       -- Buttons
       dashboard.section.buttons.val = {
         dashboard.button("n", "📄 New     ", "<cmd>ene<CR>"),
@@ -232,12 +214,7 @@ return {
     "rcarriga/nvim-notify",
     event = "User BaseDefered",
     opts = function()
-      local fps
-      if is_android then
-        fps = 30
-      else
-        fps = 144
-      end
+      local fps = 144
 
       return {
         timeout = 2500,
@@ -742,23 +719,15 @@ return {
     end,
   },
 
-  -- NOTE: auto format work
-
-  -- let's create some hydras
-  {
-    "nvimtools/hydra.nvim",
-    event = "User BaseDefered",
-    config = function()
-      require("hydra").setup({})
-    end
-
-  },
   --  which-key.nvim [on-screen keybindings]
   --  https://github.com/folke/which-key.nvim
   {
     "folke/which-key.nvim",
     event = "User BaseDefered",
     opts = {
+      window = {
+        border = "single",
+      },
       icons = { group = vim.g.icons_enabled and "" or "+", separator = "" },
       disable = { filetypes = { "TelescopePrompt" } },
     },

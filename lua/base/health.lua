@@ -70,27 +70,6 @@ function M.check()
       msg = "Used for nvim-spectre to find using fd.",
     },
     {
-      cmd = { "lazygit" },
-      type = "warn",
-      msg = "Used for mappings to pull up git TUI (Optional)",
-    },
-    {
-      cmd = { "gitui" },
-      type = "warn",
-      msg = "Used for mappings to pull up git TUI (Optional)",
-    },
-    {
-      cmd = { "pynvim" },
-      type = "warn",
-      msg =
-      "Used to enable ranger file browser (optional)\nNOTE: checkhealth won't detect this correctly, but you can ensure it is installed with 'pip list | grep pynvim'.",
-    },
-    {
-      cmd = { "ranger" },
-      type = "warn",
-      msg = "Used to enable ranger file browser (Optional)",
-    },
-    {
       cmd = { "delta" },
       type = "warn",
       msg = "Used by undotree to show a diff (Optional)",
@@ -111,37 +90,10 @@ function M.check()
       msg = "Used to run typescript and javascript tests (Optional)",
     },
     {
-      cmd = { "pytest" },
-      type = "warn",
-      msg = "Used to run python tests (Optional)",
-    },
-    {
       cmd = { "cargo nextest" },
       type = "warn",
       msg =
       "Used to run rust tests (optional)\nNOTE: checkhealth won't detect this correctly, but you can confirm it works correctly with 'cargo nextest'.",
-    },
-    {
-      cmd = { "nunit" },
-      type = "warn",
-      msg =
-      "Used to run C# tests (optional)\nNOTE: There is no way to install this system wide. To use it you must add it to your dotnet C# project: 'dotnet add package NUnit NUnit3TestAdapter'.",
-    },
-    {
-      cmd = { "csc" },
-      type = "warn",
-      msg = "Used by compiler.nvim to compile non dotnet C# files (Optional)",
-    },
-    {
-      cmd = { "mono" },
-      type = "warn",
-      msg = "Used by compiler.nvim to run non dotnet C# files. (Optional)",
-    },
-    {
-      cmd = { "dotnet" },
-      type = "warn",
-      msg =
-      "Used by compiler.nvim and DAP to operate with dotnet projects (optional)\nNOTE: Make sure you also have the system package dotnet-sdk installed.",
     },
     {
       cmd = { "java" },

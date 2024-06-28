@@ -70,19 +70,19 @@ local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
 
 -- icons displayed on which-key.nvim ---------------------------------------
 local icons = {
-  f = { desc = get_icon("Search", 1, true) .. "Find" },
-  p = { desc = get_icon("Package", 1, true) .. "Packages" },
-  l = { desc = get_icon("ActiveLSP", 1, true) .. "LSP" },
-  u = { desc = get_icon("Window", 1, true) .. "UI" },
-  b = { desc = get_icon("Tab", 1, true) .. "Buffers" },
-  bs = { desc = get_icon("Sort", 1, true) .. "Sort Buffers" },
-  c = { desc = get_icon("Run", 1, true) .. "Compiler" },
-  d = { desc = get_icon("Debugger", 1, true) .. "Debugger" },
-  tt = { desc = get_icon("Test", 1, true) .. "Test" },
-  dc = { desc = get_icon("Docs", 1, true) .. "Docs" },
-  g = { desc = get_icon("Git", 1, true) .. "Git" },
-  S = { desc = get_icon("Session", 1, true) .. "Session" },
-  t = { desc = get_icon("Terminal", 1, true) .. "Terminal" },
+  f = { desc = get_icon("Search", 1, true) .. " Find" },
+  p = { desc = get_icon("Package", 1, true) .. " Packages" },
+  l = { desc = get_icon("ActiveLSP", 1, true) .. " LSP" },
+  u = { desc = get_icon("Window", 1, true) .. " UI" },
+  b = { desc = get_icon("Tab", 1, true) .. " Buffers" },
+  bs = { desc = get_icon("Sort", 1, true) .. " Sort Buffers" },
+  c = { desc = get_icon("Run", 1, true) .. " Compiler" },
+  d = { desc = get_icon("Debugger", 1, true) .. " Debugger" },
+  tt = { desc = get_icon("Test", 1, true) .. " Test" },
+  dc = { desc = get_icon("Docs", 1, true) .. " Docs" },
+  g = { desc = get_icon("Git", 1, true) .. " Git" },
+  S = { desc = get_icon("Session", 1, true) .. " Session" },
+  t = { desc = get_icon("Terminal", 1, true) .. " Terminal" },
 }
 
 -- standard Operations -----------------------------------------------------
@@ -633,12 +633,6 @@ if is_available "vim-fugitive" then
     function() vim.cmd ":GBrowse" end,
     desc = "Open in github ",
   }
-end
-
--- file browsers ------------------------------------
--- ranger
-if is_available "rnvimr" then
-  maps.n["<leader>r"] = { "<cmd>RnvimrToggle<cr>", desc = "Ranger" }
 end
 
 -- neotree
