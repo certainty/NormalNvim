@@ -33,7 +33,7 @@ return {
         callback = function()
           require("metals").initialize_or_attach(metals_config)
           -- set some keybindings that are buffer local
-          vim.keymap.set('n', '<localleader>m',  "<Nop>", { desc = "Metals" })
+          vim.keymap.set('n', '<localleader>m',  "<Nop>", { buffer = 0, desc = "Metals" })
           vim.keymap.set("n", "<localleader>mi", "<cmd>MetalsInfo<CR>", { buffer = 0, desc = "Metals Info"} )
           vim.keymap.set("n", "<localleader>mu", "<cmd>MetalsUpdate<CR>", { buffer = 0, desc = "Metals Update"} )
           vim.keymap.set("n", "<localleader>mI", "<cmd>MetalsInstall<CR>", { buffer = 0, desc = "Metals Install"} )
@@ -42,23 +42,23 @@ return {
           vim.keymap.set("n", "<localleader>ml", "<cmd>MetalsToggleLogs<CR>", { buffer = 0, desc = "Metals Logs"} )
           vim.keymap.set("n", "<localleader>ms", "<cmd>MetalsStartServer<CR>", { buffer = 0, desc = "Start Server"} )
 
-          vim.keymap.set('n', '<localleader>b',  "<Nop>", { desc = "Build" })
+          vim.keymap.set('n', '<localleader>b',  "<Nop>", { buffer = 0, desc = "Build" })
           vim.keymap.set("n", "<localleader>bi", "<cmd>MetalsImportBuild<CR>", { buffer = 0, desc = "Import Build"} )
           vim.keymap.set("n", "<localleader>bc", "<cmd>MetalsConnectBuild<CR>", { buffer = 0, desc = "Connect Build"} )
           vim.keymap.set("n", "<localleader>bd", "<cmd>MetalsDisconnectBuild<CR>", { buffer = 0, desc = "Disconnect Build"} )
           vim.keymap.set("n", "<localleader>br", "<cmd>MetalsRestartBuildServer<CR>", { buffer = 0, desc = "Restart Build Server"} )
           vim.keymap.set("n", "<localleader>bI", "<cmd>MetalsShowBuildTargetInfo<CR>", { buffer = 0, desc = "Show Build Target Info"} )
 
-          vim.keymap.set('n', '<localleader>c',  "<Nop>", { desc = "Compile" })
+          vim.keymap.set('n', '<localleader>c',  "<Nop>", { buffer = 0, desc = "Compile" })
           vim.keymap.set("n", "<localleader>cc", "<cmd>MetalsCompileClean<CR>", { buffer = 0, desc = "Compile Clean"} )
           vim.keymap.set("n", "<localleader>cC", "<cmd>MetalsCompileCascade<CR>", { buffer = 0, desc = "Compile Clean"} )
 
           vim.keymap.set("n", "<localleader>o", "<cmd>MetalsOrganizeImports<CR>", { buffer = 0, desc = "Organize Imports"} )
 
-          vim.keymap.set('n', '<localleader>w',  "<Nop>", { desc = "Workspace" })
+          vim.keymap.set('n', '<localleader>w',  "<Nop>", { buffer = 0, desc = "Workspace" })
           vim.keymap.set("n", "<localleader>wr", "<cmd>MetalsResetWorkspace<CR>", { buffer = 0, desc = "Workspace Reset"} )
 
-          vim.keymap.set('n', '<localleader>t',  "<Nop>", { desc = "Test" })
+          vim.keymap.set('n', '<localleader>t',  "<Nop>", { buffer = 0, desc = "Test" })
           vim.keymap.set("n", "<localleader>tc", "<cmd>MetalsSelectTestCase<CR>", { buffer = 0, desc = "Select TestCase"} )
           vim.keymap.set("n", "<localleader>ts", "<cmd>MetalsSelectTestSuite<CR>", { buffer = 0, desc = "Select TestSuite"} )
 

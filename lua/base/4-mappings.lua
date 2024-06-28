@@ -623,7 +623,7 @@ if is_available "gitsigns.nvim" then
     desc = "View Git diff",
   }
   maps.n["<leader>g."] = {
-    function() require("neogit").open { kind = "split" } end,
+    function() require("neogit").open { kind = "auto" } end,
     desc = "Neogit status",
   }
 end
